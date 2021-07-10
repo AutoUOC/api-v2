@@ -1,0 +1,28 @@
+{
+    "name": "autouoc",
+    "version": "1.0.0",
+    "description": "",
+    "main": "build/index.js",
+    "type": "module",
+    "scripts": {
+        "start": "tsc && node --experimental-specifier-resolution=node .",
+        "dev": "nodemon --watch 'src/**' --ext 'ts,json' --ignore 'src/**/*.spec.ts' --exec 'tsc && node --experimental-specifier-resolution=node .'"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/AutoUOC/api-v2.git"
+    },
+    "keywords": [
+        "scratch"
+    ],
+    "author": "bremea",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/AutoUOC/api-v2/issues"
+    },
+    "homepage": "https://github.com/AutoUOC/api-v2#readme",
+    "dependencies": {
+        "@types/node": "^16.3.1",
+        "fastify": "^3.19.0"
+    }
+}
