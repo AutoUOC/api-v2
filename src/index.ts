@@ -11,6 +11,13 @@ server.get('/posts/:tid/', async (request: RequestManager.GetPosts, reply: Fasti
     reply.send({postList});
 });
 
+server.get('/orders/:tid/', async (request: RequestManager.GetPosts, reply: FastifyReply) => {
+    const pmanager = new PostManager();
+    const postList = await pmanager.getPosts(parseInt(request.params?.tid));
+    const orderlist = pmanager.getShopOrders(postList);
+    reply.send({orderlist});
+});
+
 // start
 const start = async () => {
     try {
