@@ -1,23 +1,31 @@
 import { ForumPost, ShopOrder } from '../typings/post.js';
 import petitio from "petitio";
 
+const commands: Array<string> = ['new', 'take', 'finish'];
+
+const commandRegex = new RegExp(`((?<=--uoc +)(${commands.join('|')}))(?![\s\S]*(--uoc (${commands.join('|')})))`);
+
 export class PostManager {
 
     public async getPosts(topicId: Number): Promise<Array<ForumPost>> {
-        return (await petitio(`https://scratchdb.lefty.one/v3/forum/topic/posts/${topicId}/?o=newest`).json()).filter((e: ForumPost) => e.content.html.includes('--uoc'));;
+        return (await petitio(`https://scratchdb.lefty.one/v3/forum/topic/posts/${topicId}/?o=newest`).json()).filter((e: ForumPost) => commandRegex.test(e.content.html));
     }
 
     public getShopOrders(posts: Array<ForumPost>): Array<ShopOrder> {
         const orders: Array<ShopOrder> = [];
         for (const post of posts) {
-            const postSplit = post.content.bb.split('--uoc ')[post.content.bb.split('--uoc ').length-1];
+            const command = post.content.bb.match(commandRegex).slice(-1)[0];
             let orderStatus: string | null = null;
-            if (postSplit?.startsWith('new')) {
+            switch (command) {
+              case 'new':
                 orderStatus = 'unclaimed';
-            } else if (postSplit?.startsWith('take')) {
+                break;
+              case 'take':
                 orderStatus = 'claimed';
-            } else if (postSplit?.startsWith('finish')) {
+                break;
+              case 'finish':
                 orderStatus = 'finished';
+                break;
             }
             let prevPostNum: number = -1;
             for (const [index, order] of orders.entries()) {
