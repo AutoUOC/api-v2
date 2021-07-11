@@ -1,15 +1,15 @@
-import fastify from "fastify";
+import fastify, { FastifyReply } from "fastify";
+import { TopicManager, PostManager, RequestManager } from "./routes";
 
-declare module "fastify" {
-    interface FastifyReply {
-        view(page: string, data?: object): FastifyReply;
-        sendFile(file: string, data?: object): FastifyReply;
-    }
-};
 const server = fastify();
 
 // routes
 server.get('/', async (request, reply) => { reply.send('hello'); });
+
+
+server.get('/posts/:tid/:page', async (request: RequestManager.GetPosts, reply: FastifyReply) => {
+    reply.send(await new PostManager().getPosts(parseInt(request.params?.tid), parseInt(request.params?.page)))
+});
 
 // start
 const start = async () => {
