@@ -30,3 +30,12 @@ export interface ForumPost {
         }
     }
 }
+
+export interface ShopOrder {
+    customer: string,
+    posted: string,
+    link: string,
+    status: string,
+    posts: Array<ForumPost>,
+    latestBB: string
+}
