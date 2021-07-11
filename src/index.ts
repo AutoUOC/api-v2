@@ -1,5 +1,5 @@
 import fastify, { FastifyReply } from "fastify";
-import { TopicManager, PostManager, RequestManager, ForumPost } from "./routes";
+import { TopicManager, PostManager, RequestManager } from "./routes";
 
 const server = fastify();
 
@@ -8,8 +8,8 @@ server.get('/', async (request, reply) => { reply.send('hello'); });
 
 
 server.get('/posts/:tid/', async (request: RequestManager.GetPosts, reply: FastifyReply) => {
-    const postList = await new PostManager().getPosts(parseInt(request.params?.tid), parseInt(request.params?.page));
-    const filteredPostList = postList.filter(e => e.content.html.includes('Username:'));
+    const postList = await new PostManager().getPosts(parseInt(request.params?.tid));
+    const filteredPostList = postList.filter(e => e.content.html.includes('--uoc'));
     reply.send({length: postList.length, list: filteredPostList});
 });
 
