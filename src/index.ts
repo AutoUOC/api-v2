@@ -6,11 +6,9 @@ const server = fastify();
 // routes
 server.get('/', async (request, reply) => { reply.send('hello'); });
 
-
 server.get('/posts/:tid/', async (request: RequestManager.GetPosts, reply: FastifyReply) => {
     const postList = await new PostManager().getPosts(parseInt(request.params?.tid));
-    const filteredPostList = postList.filter(e => e.content.html.includes('--uoc'));
-    reply.send({length: postList.length, list: filteredPostList});
+    reply.send({postList});
 });
 
 // start
