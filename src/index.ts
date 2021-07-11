@@ -21,7 +21,7 @@ server.get('/orders/:tid/', async (request: RequestManager.GetPosts, reply: Fast
 // start
 const start = async () => {
     try {
-        await server.listen(3000);
+        await server.listen(3069);
         const address = server.server.address();
         const port = typeof address === 'string' ? address : address?.port;
         console.log(`server live at localhost:${port}`);
